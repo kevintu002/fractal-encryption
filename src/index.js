@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './css/stylesheet.css';
-import Fractal_Encryption from './Fractal Encryption';
+import FractalEncryption from './FractalEncryption';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Fractal_Encryption />
+    <FractalEncryption />
   </React.StrictMode>,
   document.getElementById('root')
 );
