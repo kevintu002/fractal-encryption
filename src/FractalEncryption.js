@@ -50,10 +50,13 @@ export default function FractalEncryption() {
     }
   }
   const [sellPrices, setSellPrices] = useState(null)
-  const [cost, setCost] = useState(null)
+  const [buyPrices, setBuyPrices] = useState(null)
+
   const [matSum, setMatSum] = useState(0)
-  const [total, setTotal] = useState(0)
+  const [totalOutput, setTotalOutput] = useState(0)
   const [trueValue, setTrueValue] = useState(0)
+  const [cost, setCost] = useState(0)
+  
   const totalBoxes = 10000
   const junkValue = 42729000
 
@@ -76,36 +79,44 @@ export default function FractalEncryption() {
             inputDict[id] = {...inputDict[id], ...{buyPrice: i.buys.unit_price}}
         }
 
-        const newSellPriceArr = Object.values(outputDict).map(i => i.sellPrice)
-        const newCostArr = Object.values(inputDict).map(i => i.buyPrice)
+        const newSellPrices = Object.values(outputDict).map(i => i.sellPrice)
+        const newBuyPrices = Object.values(inputDict).map(i => i.buyPrice)
         const dataList = Object.values(outputDict).map(i => i.data)
         
         // calculate the material sum
-        for (let i = 0; i < newSellPriceArr.length; i++) {
-          setMatSum(prev => prev + newSellPriceArr[i] * dataList[i])
+        for (let i = 0; i < newSellPrices.length; i++) {
+          setMatSum(prev => prev + newSellPrices[i] * dataList[i])
         }
 
-        // state updates
-        setSellPrices(newSellPriceArr)
-        setCost(newCostArr)
+        setSellPrices(newSellPrices)
+        setBuyPrices(newBuyPrices)
       }, error => {
         console.log(error)
       })
   }, [])
 
   useEffect(() => {
-    setTotal(matSum + junkValue)
-    setTrueValue((matSum + junkValue) / totalBoxes)
-  }, [matSum])
+    if (matSum && buyPrices) {
+      // updates for true value
+      const newTotal = matSum + junkValue
+      const newTrueValue = newTotal / totalBoxes
+      const newCost = buyPrices.reduce((a,b) => a+b, 0)
+  
+      setTotalOutput(newTotal)
+      setTrueValue(newTrueValue)
+      setCost(newCost)
+    }
+  }, [matSum, buyPrices])
 
   return (
     <div>
-      <h1>Fractal Encryptions</h1>
+      <h1>Fractal Encryption</h1>
 
       <table>
         <thead>
           <tr>
             <th className="row-name">Boxes: {totalBoxes}</th>
+
             {Object.values(outputDict).map(i => <th key={i.name}>{i.name}</th>)}
           </tr>
         </thead>
@@ -113,38 +124,43 @@ export default function FractalEncryption() {
         <tbody>
           <tr>
             <th className="row-name">Sell price (coin)</th>
+
             {sellPrices ? sellPrices.map((i, index) => <td key={index}>{i}</td>) : null}
           </tr>
           <tr>
             <th className="row-name">Count</th>
+
             {Object.entries(outputDict).map(([key, value]) => <td key={key}>{value.data}</td>)}
           </tr>
           <tr>
             <th className="row-name">T5 sum (coin)</th>
+
             <td colSpan={sellPrices ? sellPrices.length : '0'}>{matSum}</td>
           </tr>
           <tr>
             <th className="row-name">Junk value (coin)</th>
-            <td colSpan='2'>{junkValue}</td>
+
+            <td id="junkValue" colSpan='2'>{junkValue}</td>
 
             <th>Stablizing Matrix</th><th>Fractal Encryption</th><th>Total Cost</th>
           </tr>
           <tr>
             <th className="row-name">Total (c)</th>
-            <td colSpan='2'>{total}</td>
 
-            {cost ? cost.map((i, index) => <td key={index}>{i}</td>) : null}
-            <td>{cost ? cost.reduce((a, b) => a+b, 0) : null}</td>
-
-            <td colSpan={sellPrices ? sellPrices.length : '0'}></td>
+            <td id="totalOutput" colSpan='2'>{totalOutput}</td>
+            {buyPrices ? buyPrices.map((i, index) => <td key={index}>{i}</td>) : null}
+            <td id="cost" colSpan={sellPrices ? sellPrices.length : '0'}>{cost}</td>
           </tr>
           <tr>
-            <th className="row-name">True value</th>
-            <td>{trueValue}</td>
+            <th className="row-name">True value (g)</th>
+
+            <td id="trueValue">{trueValue}</td>
           </tr>
           <tr>
             <th className="row-name">Should I Buy?</th>
-            <td>{trueValue - total > 0 ? 'Yes' : 'No'}</td>
+
+            <td>{trueValue - cost > 0 ? `Yes` : `No`}</td>
+            <td colSpan={sellPrices ? sellPrices.length : '0'}>{Math.floor(trueValue - cost)}</td>
           </tr>
         </tbody>
       </table>
