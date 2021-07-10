@@ -2,39 +2,39 @@ import React, { useState, useEffect } from 'react';
 
 export default function FractalEncryption() {
   const itemDict = {
-    blood: {
+    'Vial of Potent Blood': {
       id: 24294,
       data: 3400
     },
-    bone: {
+    'Large Bone': {
       id: 24341,
       data: 3280
     },
-    claw: {
+    'Large Claw': {
       id: 24350,
       data: 3440
     },
-    dust: {
+    'Pile of Incandescent Dust': {
       id: 24276,
       data: 3230
     },
-    fang: {
+    'Large Fang': {
       id: 24356,
       data: 3555
     },
-    scale: {
+    'Large Scale': {
       id: 24288,
       data: 3260
     },
-    totem: {
+    'Intricate Totem': {
       id: 24299,
       data: 3480
     },
-    venom: {
+    'Potent Venom Sac': {
       id: 24282,
       data: 3605
     },
-    agony: {
+    '+1 Agony Infusion': {
       id: 49424,
       data: 22523
     }
@@ -67,73 +67,33 @@ export default function FractalEncryption() {
       })
   }, [])
 
-  // function main() {
-    // let dataTotal = data.reduce((a, b) => a+b, 0) - data[data.length - 1];
-
-    // let table = getElem("table");
-
-    // populate sell value and product
-    // for (let i = 0; i < IDs.length; i++) {
-    //   // $.getJSON("https://api.guildwars2.com/v2/commerce/prices/" + IDs[i], function (item) {
-    //   //   let sellOrder = item.sells.unit_price;
-    //   //   let product = data[i] * sellOrder;
-
-    //   //   table.rows[3].cells[i + 1].innerHTML = product;
-    //   //   getElem("cost" + i).innerHTML = sellOrder;
-
-    //   //   updateTotal(product, dataTotal);
-    //   //   // getElem("boxAvg").innerHTML = getElem("boxAvg") * dataTotal + product;
-    //   // });
-    // }
-
-    // count row
-    // for (let i = 0; i < table.rows[0].cells.length - 1; i++) {
-    //   table.rows[2].cells[i + 1].innerHTML = data[i];
-    // }
-
-    // getElem("junkAvg").innerHTML = Math.floor(junkValue / boxes);
-    // getElem("boxAvg").innerHTML = junkValue;
-  // }
-
-  // const updateTotal = (product, dataTotal) => {
-  //   let x = product + parseFloat(getElem("total").innerHTML);
-  //   getElem("total").innerHTML = x;
-  //   // getElem("boxAvg").innerHTML /= getElem("boxAvg") * dataTotal + x;
-  // }
-
-  // const getElem = (e) => {
-  //   return document.getElementById(e);
-  // }
-
-  // getElem("boxAvg").innerHTML = getElem("junkValue").innerHTML + parseInt(getElem("total"));
-  // console.log(getElem("total"));
-
   return (
     <div>
       <h1>Fractal Encryptions</h1>
 
-      <table id="table">
+      <table>
         <thead>
           <tr>
-            <th id="boxes">Boxes: {totalBoxes}</th>
+            <th className='row-name'>Boxes: {totalBoxes}</th>
             {/* <!--<th>Potent Blood</th><th>Large Bone</th><th>Large Claw</th><th>Incandescent Dust</th>-->
             <!--<th>Large Fang</th><th>Large Scale</th><th>Intricate Totem</th><th>Potent Venom</th>--> */}
-            <th>Blood</th><th>Bone</th><th>Claw</th><th>Dust</th>
+            {Object.keys(itemDict).map(i => <th key={i}>{i}</th>)}
+            {/* <th>Blood</th><th>Bone</th><th>Claw</th><th>Dust</th>
             <th>Fang</th><th>Scale</th><th>Totem</th><th>Venom</th>
-            <th>+1 Agony</th>
+            <th>+1 Agony</th> */}
           </tr>
         </thead>
 
         <tbody>
           <tr>
-            <th align="left">Sell price (coin)</th>
+            <th className='row-name'>Sell price (coin)</th>
             {sellPrices ? sellPrices.map((i, index) => <td key={index}>{i}</td>) : null}
             {/* <td id="cost0"></td><td id="cost1"></td><td id="cost2"></td><td id="cost3"></td>
             <td id="cost4"></td><td id="cost5"></td><td id="cost6"></td><td id="cost7"></td>
             <td id="cost8"></td> */}
           </tr>
           <tr>
-            <th align="left">Count</th>
+            <th className='row-name'>Count</th>
             {Object.entries(itemDict).map(([key, value]) => <td key={key}>{value.data}</td>)}
           </tr>
           {/* <tr>
@@ -143,12 +103,12 @@ export default function FractalEncryption() {
             <td></td>
           </tr> */}
           <tr>
-            <th align="left">T5 sum (coin)</th>
+            <th className='row-name'>T5 sum (coin)</th>
             <td id="total">{matSum}</td>
           </tr>
 
           <tr>
-            <th align="left">Junk value (coin)</th>
+            <th className='row-name'>Junk value (coin)</th>
             <td id="junkValue">{junkValue}</td>
           </tr>
           {/* <!--<tr><th align="left">Box avg (c)</th><td id="boxAvg">0</td></tr>--> */}
@@ -158,12 +118,14 @@ export default function FractalEncryption() {
       <table>
         <thead>
           <tr>
-            <th align="left">Stablizing Matrix</th>
+            <th></th>
+            <th className='row-name'>Stablizing Matrix</th>
+            <th className='row-name'>Fractal Encryption</th>
             <td id="junkAvg"></td>
           </tr>
 
           <tr>
-            <th align="left">Fractal Encryption</th>
+            
           </tr>
         </thead>
       </table>
