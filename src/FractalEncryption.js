@@ -1,71 +1,102 @@
 import React, { useState, useEffect } from 'react';
 
 export default function FractalEncryption() {
-  const itemDict = {
-    'Vial of Potent Blood': {
-      id: 24294,
+  const outputDict = {
+    24294: {
+      name: 'Vial of Potent Blood',
       data: 3400
     },
-    'Large Bone': {
-      id: 24341,
+    24341: {
+      name: 'Large Bone',
       data: 3280
     },
-    'Large Claw': {
-      id: 24350,
+    24350: {
+      name: 'Large Claw',
       data: 3440
     },
-    'Pile of Incandescent Dust': {
-      id: 24276,
+    24276: {
+      name: 'Pile of Incandescent Dust',
       data: 3230
     },
-    'Large Fang': {
-      id: 24356,
+    24356: {
+      name: 'Large Fang',
       data: 3555
     },
-    'Large Scale': {
-      id: 24288,
+    24288: {
+      name: 'Large Scale',
       data: 3260
     },
-    'Intricate Totem': {
-      id: 24299,
+    24299: {
+      name: 'Intricate Totem',
       data: 3480
     },
-    'Potent Venom Sac': {
-      id: 24282,
+    24282: {
+      name: 'Potent Venom Sac',
       data: 3605
     },
-    '+1 Agony Infusion': {
-      id: 49424,
+    49424: {
+      name: '+1 Agony Infusion',
       data: 22523
     }
   }
+  const inputDict = {
+    73248: {
+      name: 'Stablizing Matrix',
+      data: 0
+    },
+    75919: {
+      name: 'Fractal Encryption',
+      data: 0
+    }
+  }
   const [sellPrices, setSellPrices] = useState(null)
+  const [cost, setCost] = useState(null)
   const [matSum, setMatSum] = useState(0)
+  const [total, setTotal] = useState(0)
+  const [trueValue, setTrueValue] = useState(0)
   const totalBoxes = 10000
   const junkValue = 42729000
 
-  console.log(sellPrices)
 
   useEffect(() => {
-    const idList = Object.entries(itemDict).map(([key, value]) => value.id)
-    const url = 'https://api.guildwars2.com/v2/commerce/prices?ids=' 
-    const endpoint = `${url}${idList}`
+    const idList = Object.keys(outputDict).concat(Object.keys(inputDict))
+    let url = 'https://api.guildwars2.com/v2/commerce/prices?ids=' 
+    let endpoint = `${url}${idList}`
 
     fetch(endpoint)
       .then(response => response.json())
       .then(jsonResponse => {
-        const newSellPriceArr = jsonResponse.map(i => i.sells.unit_price)
-        const dataList = Object.values(itemDict).map(i => i.data)
+        for (let i of jsonResponse) {
+          // populate dicts with their buy/sell price
+          const id = i.id
+          if (id in outputDict) {
+            outputDict[id] = {...outputDict[id], ...{sellPrice: i.sells.unit_price}}
+          }
+          if (id in inputDict)
+            inputDict[id] = {...inputDict[id], ...{buyPrice: i.buys.unit_price}}
+        }
 
+        const newSellPriceArr = Object.values(outputDict).map(i => i.sellPrice)
+        const newCostArr = Object.values(inputDict).map(i => i.buyPrice)
+        const dataList = Object.values(outputDict).map(i => i.data)
+        
+        // calculate the material sum
         for (let i = 0; i < newSellPriceArr.length; i++) {
           setMatSum(prev => prev + newSellPriceArr[i] * dataList[i])
         }
 
+        // state updates
         setSellPrices(newSellPriceArr)
+        setCost(newCostArr)
       }, error => {
         console.log(error)
       })
   }, [])
+
+  useEffect(() => {
+    setTotal(matSum + junkValue)
+    setTrueValue((matSum + junkValue) / totalBoxes)
+  }, [matSum])
 
   return (
     <div>
@@ -75,7 +106,7 @@ export default function FractalEncryption() {
         <thead>
           <tr>
             <th className="row-name">Boxes: {totalBoxes}</th>
-            {Object.keys(itemDict).map(i => <th key={i}>{i}</th>)}
+            {Object.values(outputDict).map(i => <th key={i.name}>{i.name}</th>)}
           </tr>
         </thead>
 
@@ -86,7 +117,7 @@ export default function FractalEncryption() {
           </tr>
           <tr>
             <th className="row-name">Count</th>
-            {Object.entries(itemDict).map(([key, value]) => <td key={key}>{value.data}</td>)}
+            {Object.entries(outputDict).map(([key, value]) => <td key={key}>{value.data}</td>)}
           </tr>
           <tr>
             <th className="row-name">T5 sum (coin)</th>
@@ -95,31 +126,27 @@ export default function FractalEncryption() {
           <tr>
             <th className="row-name">Junk value (coin)</th>
             <td colSpan='2'>{junkValue}</td>
-            <th>Stablizing Matrix</th><th>Fractal Encryption</th>
+
+            <th>Stablizing Matrix</th><th>Fractal Encryption</th><th>Total Cost</th>
           </tr>
           <tr>
-            <th className="row-name">Total (g)</th>
-            <td colSpan='2'>{matSum + junkValue}</td>
-            <td>{}</td>
+            <th className="row-name">Total (c)</th>
+            <td colSpan='2'>{total}</td>
+
+            {cost ? cost.map((i, index) => <td key={index}>{i}</td>) : null}
+            <td>{cost ? cost.reduce((a, b) => a+b, 0) : null}</td>
+
             <td colSpan={sellPrices ? sellPrices.length : '0'}></td>
           </tr>
+          <tr>
+            <th className="row-name">True value</th>
+            <td>{trueValue}</td>
+          </tr>
+          <tr>
+            <th className="row-name">Should I Buy?</th>
+            <td>{trueValue - total > 0 ? 'Yes' : 'No'}</td>
+          </tr>
         </tbody>
-      </table>
-      <br/>
-
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th className="row-name">Stablizing Matrix</th>
-            <th className="row-name">Fractal Encryption</th>
-            <td id="junkAvg"></td>
-          </tr>
-
-          <tr>
-            
-          </tr>
-        </thead>
       </table>
 
     </div>
