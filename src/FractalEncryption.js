@@ -74,53 +74,45 @@ export default function FractalEncryption() {
       <table>
         <thead>
           <tr>
-            <th className='row-name'>Boxes: {totalBoxes}</th>
-            {/* <!--<th>Potent Blood</th><th>Large Bone</th><th>Large Claw</th><th>Incandescent Dust</th>-->
-            <!--<th>Large Fang</th><th>Large Scale</th><th>Intricate Totem</th><th>Potent Venom</th>--> */}
+            <th className="row-name">Boxes: {totalBoxes}</th>
             {Object.keys(itemDict).map(i => <th key={i}>{i}</th>)}
-            {/* <th>Blood</th><th>Bone</th><th>Claw</th><th>Dust</th>
-            <th>Fang</th><th>Scale</th><th>Totem</th><th>Venom</th>
-            <th>+1 Agony</th> */}
           </tr>
         </thead>
 
         <tbody>
           <tr>
-            <th className='row-name'>Sell price (coin)</th>
+            <th className="row-name">Sell price (coin)</th>
             {sellPrices ? sellPrices.map((i, index) => <td key={index}>{i}</td>) : null}
-            {/* <td id="cost0"></td><td id="cost1"></td><td id="cost2"></td><td id="cost3"></td>
-            <td id="cost4"></td><td id="cost5"></td><td id="cost6"></td><td id="cost7"></td>
-            <td id="cost8"></td> */}
           </tr>
           <tr>
-            <th className='row-name'>Count</th>
+            <th className="row-name">Count</th>
             {Object.entries(itemDict).map(([key, value]) => <td key={key}>{value.data}</td>)}
           </tr>
-          {/* <tr>
-            <th align="left">Product (c)</th>
-            <td></td><td></td><td></td><td></td>
-            <td></td><td></td><td></td><td></td>
-            <td></td>
-          </tr> */}
           <tr>
-            <th className='row-name'>T5 sum (coin)</th>
-            <td id="total">{matSum}</td>
+            <th className="row-name">T5 sum (coin)</th>
+            <td colSpan={sellPrices ? sellPrices.length : '0'}>{matSum}</td>
           </tr>
-
           <tr>
-            <th className='row-name'>Junk value (coin)</th>
-            <td id="junkValue">{junkValue}</td>
+            <th className="row-name">Junk value (coin)</th>
+            <td colSpan='2'>{junkValue}</td>
+            <th>Stablizing Matrix</th><th>Fractal Encryption</th>
           </tr>
-          {/* <!--<tr><th align="left">Box avg (c)</th><td id="boxAvg">0</td></tr>--> */}
+          <tr>
+            <th className="row-name">Total (g)</th>
+            <td colSpan='2'>{matSum + junkValue}</td>
+            <td>{}</td>
+            <td colSpan={sellPrices ? sellPrices.length : '0'}></td>
+          </tr>
         </tbody>
       </table>
       <br/>
+
       <table>
         <thead>
           <tr>
             <th></th>
-            <th className='row-name'>Stablizing Matrix</th>
-            <th className='row-name'>Fractal Encryption</th>
+            <th className="row-name">Stablizing Matrix</th>
+            <th className="row-name">Fractal Encryption</th>
             <td id="junkAvg"></td>
           </tr>
 
