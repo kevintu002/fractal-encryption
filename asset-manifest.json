@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/fractal-encryption/static/css/main.b136eb7c.chunk.css",
+    "main.js": "/fractal-encryption/static/js/main.0dfcb255.chunk.js",
+    "main.js.map": "/fractal-encryption/static/js/main.0dfcb255.chunk.js.map",
+    "runtime-main.js": "/fractal-encryption/static/js/runtime-main.7354ec44.js",
+    "runtime-main.js.map": "/fractal-encryption/static/js/runtime-main.7354ec44.js.map",
+    "static/js/2.8249dea7.chunk.js": "/fractal-encryption/static/js/2.8249dea7.chunk.js",
+    "static/js/2.8249dea7.chunk.js.map": "/fractal-encryption/static/js/2.8249dea7.chunk.js.map",
+    "index.html": "/fractal-encryption/index.html",
+    "static/css/main.b136eb7c.chunk.css.map": "/fractal-encryption/static/css/main.b136eb7c.chunk.css.map",
+    "static/js/2.8249dea7.chunk.js.LICENSE.txt": "/fractal-encryption/static/js/2.8249dea7.chunk.js.LICENSE.txt",
+    "static/media/stylesheet.css": "/fractal-encryption/static/media/gw2wallpaper.0ffa4a33.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7354ec44.js",
+    "static/js/2.8249dea7.chunk.js",
+    "static/css/main.b136eb7c.chunk.css",
+    "static/js/main.0dfcb255.chunk.js"
+  ]
+}
