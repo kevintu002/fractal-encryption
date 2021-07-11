@@ -1,14 +1,21 @@
 body {
+  color: white;
   font-family: 'Open Sans', sans-serif;
+  background: url('gw2wallpaper.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 table {
   height: 100%;
   max-width: 80%;
   border-collapse: collapse;
   font-size: 18px;
+  background-color: #333;
+  border: 1px solid lightgrey;
 }
 tr:nth-child(odd) {
   background-color: #F0F0F0;
+  color: black;
 }
 td {
   font-weight: bold;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 export default function FractalEncryption() {
+  // list of ids to fetch for sell price
   const outputDict = {
     24294: {
       name: 'Vial of Potent Blood',
@@ -39,6 +40,7 @@ export default function FractalEncryption() {
       data: 22523
     }
   }
+  // list of ids to fetch for buy price
   const inputDict = {
     73248: {
       name: 'Stablizing Matrix',
@@ -59,7 +61,6 @@ export default function FractalEncryption() {
   
   const totalBoxes = 10000
   const junkValue = 42729000
-
 
   useEffect(() => {
     const idList = Object.keys(outputDict).concat(Object.keys(inputDict))
@@ -88,6 +89,7 @@ export default function FractalEncryption() {
           setMatSum(prev => prev + newSellPrices[i] * dataList[i])
         }
 
+        // update display states
         setSellPrices(newSellPrices)
         setBuyPrices(newBuyPrices)
       }, error => {
@@ -95,9 +97,9 @@ export default function FractalEncryption() {
       })
   }, [])
 
+  // calculates and update cells that depend on the fetch requests
   useEffect(() => {
     if (matSum && buyPrices) {
-      // updates for true value
       const newTotal = matSum + junkValue
       const newTrueValue = newTotal / totalBoxes
       const newCost = buyPrices.reduce((a,b) => a+b, 0)
@@ -140,21 +142,21 @@ export default function FractalEncryption() {
           <tr>
             <th className="row-name">Junk value (coin)</th>
 
-            <td id="junkValue" colSpan='2'>{junkValue}</td>
-
-            <th>Stablizing Matrix</th><th>Fractal Encryption</th><th>Total Cost</th>
+            <td>{junkValue}</td>
           </tr>
           <tr>
-            <th className="row-name">Total (c)</th>
+            <th className="row-name">Total (coin)</th>
 
             <td id="totalOutput" colSpan='2'>{totalOutput}</td>
-            {buyPrices ? buyPrices.map((i, index) => <td key={index}>{i}</td>) : null}
-            <td id="cost" colSpan={sellPrices ? sellPrices.length : '0'}>{cost}</td>
+            <th>Total Cost</th><th>Stablizing Matrix</th><th>Fractal Encryption</th>
+            <td colSpan='5'></td>
           </tr>
           <tr>
-            <th className="row-name">True value (g)</th>
+            <th className="row-name">Value per box (coin)</th>
 
-            <td id="trueValue">{trueValue}</td>
+            <td id="trueValue" colSpan='2'>{trueValue}</td>
+            <td id="cost">{cost}</td>
+            {buyPrices ? buyPrices.map((i, index) => <td key={index}>{i}</td>) : null}
           </tr>
           <tr>
             <th className="row-name">Should I Buy?</th>
