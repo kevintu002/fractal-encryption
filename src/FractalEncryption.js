@@ -119,7 +119,9 @@ export default function FractalEncryption() {
           <tr>
             <th className="row-name">Boxes: {totalBoxes}</th>
 
-            {Object.values(outputDict).map(i => <th key={i.name}>{i.name}</th>)}
+            {Object.values(outputDict).map(i => 
+              <th key={i.name}>{i.name}</th>
+            )}
           </tr>
         </thead>
 
@@ -127,12 +129,18 @@ export default function FractalEncryption() {
           <tr>
             <th className="row-name">Sell price (coin)</th>
 
-            {sellPrices ? sellPrices.map((i, index) => <td key={index}>{i}</td>) : null}
+            {sellPrices 
+              ? sellPrices.map((i, index) => 
+                <td key={index}>{i}</td>) 
+              : null
+            }
           </tr>
           <tr>
             <th className="row-name">Count</th>
 
-            {Object.entries(outputDict).map(([key, value]) => <td key={key}>{value.data}</td>)}
+            {Object.entries(outputDict).map(([key, value]) => 
+              <td key={key}>{value.data}</td>
+            )}
           </tr>
           <tr>
             <th className="row-name">T5 sum (coin)</th>
@@ -156,7 +164,11 @@ export default function FractalEncryption() {
 
             <td id="trueValue" colSpan='2'>{trueValue}</td>
             <td id="cost">{cost}</td>
-            {buyPrices ? buyPrices.map((i, index) => <td key={index}>{i}</td>) : null}
+            {buyPrices 
+              ? buyPrices.map((i, index) => 
+                <td key={index}>{i}</td>) 
+              : null
+            }
           </tr>
           <tr>
             <th className="row-name">Should I Buy?</th>
