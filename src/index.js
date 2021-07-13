@@ -5,7 +5,7 @@ import FractalEncryption from './FractalEncryption';
 
 ReactDOM.render(
   <React.StrictMode>
-    <FractalEncryption />
+  <FractalEncryption />
   </React.StrictMode>,
   document.getElementById('root')
 );

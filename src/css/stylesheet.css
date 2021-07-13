@@ -1,9 +1,11 @@
-body {
+html {
   color: white;
   font-family: 'Open Sans', sans-serif;
   background: url('gw2wallpaper.jpg');
+  /* background-position: center; */
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100%;
 }
 table {
   height: 100%;
