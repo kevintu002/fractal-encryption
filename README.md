@@ -6,7 +6,7 @@ This webpage tallies the value of items given from a Fractal Encryption.
 
 ## Where is it?
 
-[Link](https://poplica.github.io/fractal-encryption/)
+[Link](https://kevintu002.github.io/fractal-encryption/)
 ![Broken image link](https://i.imgur.com/dkX8jWe.png)
 
 ## Why did I make this?
